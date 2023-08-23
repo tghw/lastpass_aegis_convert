@@ -16,13 +16,13 @@ def main(path):
         entry = {
             "type": "totp",
             "uuid": account.get("accountID"),
-            "name": account.get("issuerName"),
-            "issuer": account.get("originalIssuerName"),
-            "note": account.get("userName", ""),
+            "name": account.get("userName", ""),
+            "issuer": account.get("originalIssuerName", account.get("issuerName", "")),
+            "note": None,
             "favorite": account.get("isFavorite", False),
             "icon": None,
             "info": {
-                "secret": account.get("secret"),
+                "secret": account.get("secret", "").replace(" ", ""),
                 "algo": account.get("algorithm"),
                 "digits": account.get("digits"),
                 "period": account.get("timeStep"),
@@ -40,3 +40,4 @@ if __name__ == "__main__":
     parser.add_argument("filename", help="LastPass Authenticator JSON File")
     args = parser.parse_args()
     main(args.filename)
+
